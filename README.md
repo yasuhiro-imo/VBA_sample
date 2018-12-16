@@ -1,2 +1,2 @@
 # VBA_sample
-as my training
+VBA files containing codes as my training.
