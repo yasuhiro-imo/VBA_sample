@@ -1,14 +1,16 @@
+/*
+************************************************************
 MySQLをVBAで連携させてEXCELファイル上に転載するプログラム。
 (ODBC接続プログラムをインストールしておく(mysql-connector-odbc-8.0.13-win32.msi))
 
 当サンプルでは、「SERVER=localhost」内の「DATABASE=nyuumon」に、「UID=user01」というユーザー名でログインし、
 SQL文（"SELECT * FROM tbl_employee"）を実行し、EXCEL上のセルに貼り付けている(Module1)。 
 又、insert文を使ってマクロからデータベースに情報を追加している(Module2)。
+************************************************************
+*/
 
-以下、コードの抜粋↓↓
 
-
-[Module1]
+'[Module1]
 
 Sub データ一覧表示()
   Dim adoCon As Object ' ADOコネクション
@@ -61,7 +63,7 @@ Sub データ一覧表示()
 End Sub
  
 
-[Module2]
+'[Module2]
 
 Sub 新規追加()
   Dim adoCon As Object ' ADOコネクション
