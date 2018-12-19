@@ -1,11 +1,11 @@
 /*
 ************************************************************
 MySQLをVBAで連携させてEXCELファイル上に転載するプログラム。
-(ODBC接続プログラムをインストールしておく(mysql-connector-odbc-8.0.13-win32.msi))
+(MySQLのODBC接続ドライバーをインストールしておく(mysql-connector-odbc-8.0.13-win32.msi))
 
-当サンプルでは、「SERVER=localhost」内の「DATABASE=nyuumon」に、「UID=user01」というユーザー名でログインし、
-SQL文（"SELECT * FROM tbl_employee"）を実行し、EXCEL上のセルに貼り付けている(Module1)。 
-又、insert文を使ってマクロからデータベースに情報を追加している(Module2)。
+当サンプルでは、[SERVER=localhost]内の[DATABASE=thedatabase]に、[UID=user01:PWD=pass01]というユーザーでログインし、
+SQL文（["SELECT * FROM tbl_employee"]）を実行し、EXCEL上のセルに[tbl_table]のデータを貼り付けている(Module1)。 
+又、insert文を使ってマクロ直接から当該データベースに情報を追加している(Module2)。
 ************************************************************
 */
 
@@ -19,7 +19,7 @@ Sub データ一覧表示()
   Dim i As Long
   Dim sheetobj As Worksheet
   
-  Set sheetobj = ThisWorkbook.Worksheets("sheet2")
+  Set sheetobj = ThisWorkbook.Worksheets("sheet1")
    
   ' ADOコネクションを作成
   Set adoCon = CreateObject("ADODB.Connection")
@@ -28,14 +28,14 @@ Sub データ一覧表示()
    adoCon.Open _
       "DRIVER={MySQL ODBC 8.0 Unicode Driver};" & _
       " SERVER=localhost;" & _
-      " DATABASE=nyuumon;" & _
+      " DATABASE=thedatabase;" & _
       " UID=user01;" & _
       " PWD=pass01;"
       
   'MsgBox "データ一覧を表示します"
   
   ' SQL文
-  SQL = "SELECT * FROM tbl_employee"
+      SQL = "SELECT * FROM tbl_table"
  
   ' SQLの実行
   Set adoRs = adoCon.Execute(SQL)
@@ -45,9 +45,8 @@ Sub データ一覧表示()
   With sheetobj
   i = 1
   Do Until adoRs.EOF
-    .Cells(i, 1) = adoRs!code
-    .Cells(i, 2) = adoRs!Name
-    .Cells(i, 3) = Format(adoRs!birthday, "yyyy/mm/dd")
+    .Cells(i, 1) = adoRs!Field1
+    .Cells(i, 2) = adoRs!Field2
     
     i = i + 1
     ' 次の行に移動する
@@ -61,8 +60,9 @@ Sub データ一覧表示()
   Set adoRs = Nothing
   Set adoCon = Nothing
 End Sub
- 
-
+      
+      
+      
 '[Module2]
 
 Sub 新規追加()
@@ -76,7 +76,7 @@ Sub 新規追加()
   ' 定数
   Const adExecuteNoRecords = &H80
   
-  Set sheetobj = ThisWorkbook.Worksheets("sheet2")
+  Set sheetobj = ThisWorkbook.Worksheets("sheet1")
    
   ' ADOコネクションを作成
   Set adoCon = CreateObject("ADODB.Connection")
@@ -85,7 +85,7 @@ Sub 新規追加()
    adoCon.Open _
       "DRIVER={MySQL ODBC 8.0 Unicode Driver};" & _
       " SERVER=localhost;" & _
-      " DATABASE=nyuumon;" & _
+            " DATABASE=thedatabase;" & _
       " UID=user01;" & _
       " PWD=pass01;"
       
@@ -93,7 +93,7 @@ Sub 新規追加()
   
   If result = vbYes Then
   ' SQL文
-  SQL = "insert into  tbl_employee values(110,'車　高志', '1988-03-03', 30, 4, 101);"
+              SQL = "insert into  tbl_table values("hoge", "hage");"
         
   
   ' SQLの実行
@@ -106,5 +106,6 @@ Sub 新規追加()
   End If
   
 End Sub
-
-      
+          
+          
+          
